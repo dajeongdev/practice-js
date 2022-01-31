@@ -1,24 +1,37 @@
-import Button from "./Button";
-import styles from "./App.module.css"
 import { useState, useEffect } from "react";
 
-function Hello() {
-  useEffect(() => {
-    console.log("hi :)");
-    return () => console.log("bye *("); // 언제 컴포넌트를 삭제했는지 알 수 있다! (자주 사용하진 않음)
-  }, []);
-  return <h1>Hello</h1>;
-}
-
 function App() {
-  const [showing, setShowting] = useState(false);
-  const onClick = () => setShowting((prev) => !prev);
+  const [toDo, setToDo] = useState("");
+  const [toDos, setToDos] = useState([]);
+  const onChange = (event) => setToDo(event.target.value);
+  const onSubmit = (event) => {
+    event.preventDefault();
+    if (toDo === "") {
+      return;
+    }
+    setToDos(currentArray => [toDo, ...currentArray]);
+    setToDo("");
+  }
   return (
     <div>
-      {showing ? <Hello /> : null}
-      <button onClick={onClick}>{showing ? "Hide" : "Show"}</button>
+      <h1>My To Dos {(toDos.length)}</h1>
+      <form onSubmit={onSubmit}>
+        <input 
+          type="text" 
+          value={toDo} 
+          onChange={onChange} 
+          placeholder="Write your To Do!"
+        />
+        <button>Add To Do</button>
+      </form>
+      <hr />
+      <ul>
+        {toDos.map((item, index) => 
+          <li key={index}>{item}</li>
+        )}
+      </ul>
     </div>
-  );
+  )
 }
 
 export default App;

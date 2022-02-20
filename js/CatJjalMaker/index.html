@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>고양이 가라사대</title>
+  </head>
+  <style>
+    body {
+      text-align: center;
+    }
+    .main-card button {
+      position: relative;
+      left: -45px;
+      bottom: 15px;
+    }
+    .favorites {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+  </style>
+  <body>
+    <div id="app"></div>
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script type="text/babel">
+      console.log('야옹');
+
+      const Title = (props) => {
+        return (
+          <h1>{props.children}</h1>
+        );
+      }
+
+      const Form = ({ handleFormSubmit }) => {
+        return (
+          <form onSubmit={handleFormSubmit}>
+            <input type="text" name="name" placeholder="영어 대사를 입력해주세요" />
+            <button type="submit">생성</button>
+          </form>
+        );
+      }
+
+      const MainCard = ({ img }) => {
+        function handleHeartClick() {
+          console.log("Push the Heart!");
+        }
+        return (
+          <div className="main-card">
+            <img
+              src={img}
+              alt="고양이"
+              width="400"
+            />
+            <button onClick={handleHeartClick}>♡</button>
+          </div>
+        );
+      }
+
+      function CatItem(props) {
+        return (
+          <li>
+          <img 
+            src={props.img} 
+            style={{ width: "150px" }}
+          />
+        </li>
+        );
+      }
+
+      function Favorites() {
+        return (
+          <ul className="favorites">
+            <CatItem img='https://cataas.com//cat/5e9970351b7a400011744233/says/inflearn'/>
+            <CatItem img='https://cataas.com/cat/595f280b557291a9750ebf65/says/JavaScript'/>
+          </ul>
+        );
+      }
+
+      const App = () => {
+        const CAT1 = 'https://cataas.com/cat/60b73094e04e18001194a309/says/react';
+        const CAT2 = 'https://cataas.com//cat/5e9970351b7a400011744233/says/inflearn';
+        const CAT3 = 'https://cataas.com/cat/595f280b557291a9750ebf65/says/JavaScript';
+
+        const [counter, setCounter] = React.useState(1);
+        const [mainCat, setMainCat] = React.useState(CAT1);
+        console.log(`카운터 ${counter}`);
+
+        function handleFormSubmit(event) {
+          event.preventDefault();
+          setCounter(counter + 1);
+          setMainCat(CAT2);
+        }
+
+        return (
+          <div>
+            <Title>{counter}번째 고양이 가라사대</Title>
+            <Form handleFormSubmit={handleFormSubmit} />
+            <MainCard img={mainCat}/>
+            <Favorites />
+          </div>
+        );
+      }
+
+      const drawHere = document.querySelector("#app");
+
+      ReactDOM.render(<App />, drawHere);
+    </script>
+  </body>
+</html>
